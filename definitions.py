@@ -1,9 +1,8 @@
 import json
 import os.path
 import sys
-import definitions as de
-from pathlib2 import Path
 import tokenize
+from pathlib2 import Path
 
 def init():
     data = None
@@ -119,6 +118,16 @@ def showWord(data, word):
     for i in defs:
         print "[%s] %s" % (count, defs[i])
         count = count + 1
+
+
+# Search for word via keyword in definitions
+def near(data, keyword):
+    for word in data:
+        key = data[word]
+        for defi in key:
+            if keyword in key[defi]:
+                showWord(data, word)
+                break
 
 
 # Print the help

@@ -1,9 +1,5 @@
-import json
-import os.path
 import os
-import sys
 import definitions as de
-from pathlib2 import Path
 
 
 def main():
@@ -28,6 +24,12 @@ def main():
                 print "Invalid input..."
                 continue
             de.remove(data, tokens[1].lower(), tokens[2])
+        # Search for word via keyword in definitions
+        elif check=="near":
+            if length != 2:
+                print "Invalid input..."
+                continue
+            de.near(data, tokens[1])
         elif check == "help":
             if length > 1:
                 print "Invalid input..."
