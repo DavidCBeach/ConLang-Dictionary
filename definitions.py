@@ -1,6 +1,8 @@
-import json
-import os.path
 import sys
+import json
+import random
+import string
+import os.path
 import tokenize
 from pathlib2 import Path
 
@@ -47,7 +49,7 @@ def add(data, word):
         if answer == "y":
             definition = raw_input("Enter definition: ")
             data[word].update({
-                str(len(data[word]) + 1): definition
+                genId(): definition
             })
             writeToFile(data)
 
@@ -58,7 +60,7 @@ def add(data, word):
         data[word] = {}
         definition = raw_input("Enter definition: ")
         data[word].update({
-            str(len(data[word]) + 1): definition
+            genId(): definition
         })
         writeToFile(data)
 
@@ -80,14 +82,14 @@ def remove(data, operation, word):
         # Word has been found
         definitions = data[word]
         showWord(data, word)
-        index = None
+        id = None
         while (1):
-            index = raw_input("Enter definition number: ")
-            if index not in definitions:
+            id = raw_input("Enter definition ID: ")
+            if id not in definitions:
                 print "Invalid input..."
             else:
                 break
-        del definitions[index]
+        del definitions[id]
         data[word] = definitions
         writeToFile(data)
     else:
@@ -112,12 +114,10 @@ def getInt(printStatement):
 # Shows information for a given word dict
 def showWord(data, word):
     numDefs = len(data[word])
-    print "%s: %d definition(s)" % (word, numDefs)
-    count = 1
+    print "(%s): %d definition(s)" % (word, numDefs)
     defs = data[word]
     for i in defs:
-        print "[%s] %s" % (count, defs[i])
-        count = count + 1
+        print "[%s] %s" % (i, defs[i])
 
 
 # Search for word via keyword in definitions
@@ -128,6 +128,13 @@ def near(data, keyword):
             if keyword in key[defi]:
                 showWord(data, word)
                 break
+
+
+def genId():
+    id = ""
+    for i in [1,2,3,4]:
+        id = id + random.choice(string.letters).lower()
+    return str(id)
 
 
 # Print the help
