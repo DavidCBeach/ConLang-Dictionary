@@ -24,12 +24,12 @@ def main():
                 print "Invalid input..."
                 continue
             de.remove(data, tokens[1].lower(), tokens[2])
-        # Search for word via keyword in definitions
-        elif check=="near":
-            if length != 2:
+        elif check == "recent":
+            if length != 1:
                 print "Invalid input..."
                 continue
-            de.near(data, tokens[1])
+            de.recent()
+        # Print help page
         elif check == "help":
             if length > 1:
                 print "Invalid input..."

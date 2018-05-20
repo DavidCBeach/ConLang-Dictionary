@@ -1,0 +1,36 @@
+--------------------------------------------------------------------------------
+
+Constructed Language Dictionary
+
+Manage and organize words and definitions for your constructed language.
+
+The dictionary, containing words and their corresponding definitions, is stored
+as a JSON file call 'dict.json' in the root directory of the program. If no
+dictionary is found, an empty JSON file will be created. DELETION OF THIS JSON
+FILE WILL RESULT IN THE DELETION OF THE DICTIONARY.
+
+Each definition is given an ID unique only the word it defines. There is no
+guarantee for each ID to be unique across the entire dictionary.
+
+COMMANDS
+  search [word]
+    search for word and display all definitions if found
+
+  add [word]
+    create and store new word to dictionary. Adds new definition if word already
+    exists
+
+  remove <'word'|'definition'> [word]
+    remove entire word along with all associated definitions or remove specific
+    definition
+
+  recent
+    view most recently added words
+
+  clear
+    clears terminal
+
+  exit
+    exits program
+
+--------------------------------------------------------------------------------

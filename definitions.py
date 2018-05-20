@@ -8,11 +8,18 @@ from pathlib2 import Path
 
 def init():
     data = None
+    print("Enter 'help' for help and 'exit' to exit program...")
+    # Create dictionary if it does not exist
     dictFile = Path("dict.json")
     if not dictFile.is_file():
         print("Initializing new dictionary...")
-        # Create file if it does not exist
         writeToFile({})
+    # Create recent file if it does not exist
+    recentFile = Path(".recent")
+    if not recentFile.is_file():
+        r = open(".recent", "w")
+        r.close()
+    # Get the contents of the dictionary file
     with open("dict.json") as json_file:
         data = json.load(json_file)
         if not data or data == None:
@@ -63,6 +70,7 @@ def add(data, word):
             genId(): definition
         })
         writeToFile(data)
+        updateRecent(word)
 
 
 def remove(data, operation, word):
@@ -96,6 +104,19 @@ def remove(data, operation, word):
         print "Invalid input..."
 
 
+# View most recently used words
+def recent():
+    content = [line.rstrip('\n') for line in open(".recent")]
+    for i in content[::-1]:
+        print i
+
+
+# Print the help
+def help():
+    f = open(".help", "r")
+    print f.read()
+
+
 # Safely get integer input from user
 def getInt(printStatement):
     try:
@@ -120,6 +141,22 @@ def showWord(data, word):
         print "[%s] %s" % (i, defs[i])
 
 
+# update recent word list
+def updateRecent(word):
+    content = [line.rstrip('\n') for line in open(".recent")]
+    if len(content) >= 15:
+        content.pop(0)
+        content.append(word)
+    else:
+        content.append(word)
+    # open file as write to clear it
+    f = open(".recent", "w")
+    f.truncate()
+    for i in content:
+        f.write("%s\n" % i)
+    f.close()
+
+
 # Search for word via keyword in definitions
 def near(data, keyword):
     for word in data:
@@ -135,11 +172,6 @@ def genId():
     for i in [1,2,3,4]:
         id = id + random.choice(string.letters).lower()
     return str(id)
-
-
-# Print the help
-def help():
-    pass
 
 
 # Primary 'save' function
