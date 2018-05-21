@@ -6,19 +6,25 @@ import os.path
 import tokenize
 from pathlib2 import Path
 
+
 def init():
     data = None
     print("Enter 'help' for help and 'exit' to exit program...")
-    # Create dictionary if it does not exist
-    dictFile = Path("dict.json")
-    if not dictFile.is_file():
-        print("Initializing new dictionary...")
-        writeToFile({})
     # Create recent file if it does not exist
     recentFile = Path(".recent")
     if not recentFile.is_file():
         r = open(".recent", "w")
         r.close()
+    # Create dictionary if it does not exist
+    dictFile = Path("dict.json")
+    if not dictFile.is_file():
+        print("Initializing new dictionary...")
+        writeToFile({})
+        # If the dictionary is new and the '.recent' file already exists, then
+        # the '.recent' file needs to be reset
+        f = open(".recent", "w")
+        f.truncate()
+        f.close()
     # Get the contents of the dictionary file
     with open("dict.json") as json_file:
         data = json.load(json_file)
@@ -55,11 +61,17 @@ def add(data, word):
         answer = raw_input("Word found! Add Definition? (y/n): ").lower()
         if answer == "y":
             definition = raw_input("Enter definition: ")
+            # Create unique ID
+            ID = None
+            while(1):
+                ID = genId()
+                if ID not in data[word]:
+                    break
+            # Add definition
             data[word].update({
-                genId(): definition
+                ID: definition
             })
             writeToFile(data)
-
             return
         else:
             return
@@ -132,13 +144,13 @@ def getInt(printStatement):
     return val
 
 
-# Shows information for a given word dict
+# Shows information for a given word in dict
 def showWord(data, word):
     numDefs = len(data[word])
     print "(%s): %d definition(s)" % (word, numDefs)
     defs = data[word]
     for i in defs:
-        print "[%s] %s" % (i, defs[i])
+        print "[%s] --- %s" % (i, defs[i])
 
 
 # update recent word list
