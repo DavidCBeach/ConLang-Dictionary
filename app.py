@@ -1,50 +1,14 @@
-import os
-import definitions as de
+from flask import Flask, render_template
+import definitions as df
 
+app = Flask(__name__)
 
+@app.route('/')
 def main():
-    data = de.init()
-    while (1):
-        input = raw_input("> ")
-        tokens = de.tokenize(input)
-        length = len(tokens)
-        check = tokens[0].lower()
-        # Search for a word
-        if check == "search":
-            de.search(data, tokens[1])
-        # Add a word or definition
-        elif check == "add":
-            if length < 2:
-                print "Invalid input..."
-                continue
-            de.add(data, tokens[1])
-        # Remove word or definition
-        elif check == "remove":
-            if length != 3:
-                print "Invalid input..."
-                continue
-            de.remove(data, tokens[1].lower(), tokens[2])
-        elif check == "recent":
-            if length != 1:
-                print "Invalid input..."
-                continue
-            de.recent()
-        # Print help page
-        elif check == "help":
-            if length > 1:
-                print "Invalid input..."
-                continue
-            de.help();
-        # Clear terminal
-        elif check == "clear":
-            if length > 1:
-                print "Invalid input..."
-                continue
-            os.system('cls' if os.name == 'nt' else 'clear')
-        # Exit out of our app
-        elif check == "exit":
-            return
+    df.init()
+    return render_template('main.html', recent=recent)
 
-
-if __name__ == "__main__":
-    main()
+# Run server on localhost
+if __name__ == '__main__':
+    app.debug = True
+    app.run(host='0.0.0.0', port=8080)
