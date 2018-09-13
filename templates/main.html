@@ -2,15 +2,19 @@
   <head>
     <meta charset=ut8>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="#" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/uikit.min.css') }}" />
+    <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/uikit-icons.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/test.js') }}"></script>
   </head>
   <body>
-    {% block content %}
-    {% endblock %}
+    <div>
+      <h4>Recent Words</h4>
+      <ul class="uk-list uk-list-large" id="recent">
+      </ul>
+    </div>
     <ul>
-      { % for i in recent % }
-      <li>{{ i }}</li>
     </ul>
   </body>
-
 </html>

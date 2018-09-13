@@ -119,8 +119,7 @@ def remove(data, operation, word):
 # View most recently used words
 def recent():
     content = [line.rstrip('\n') for line in open(".recent")]
-    for i in content[::-1]:
-        print i
+    return content
 
 
 # Print the help
