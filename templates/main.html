@@ -9,10 +9,32 @@
     <script src="{{ url_for('static', filename='js/test.js') }}"></script>
   </head>
   <body>
-    <div>
+    <div id="recent-words">
       <h4>Recent Words</h4>
       <ul class="uk-list uk-list-large" id="recent">
       </ul>
+    </div>
+    <div id="addword">
+      <button class="uk-button uk-button-default uk-margin-small-right" uk-toggle="target: #add-word-modal" type="button">
+        Add Word
+      </button>
+      <div id="add-word-modal" uk-modal>
+          <div class="uk-modal-dialog uk-modal-body">
+              <h2 class="uk-modal-title">Add Word</h2>
+              <form id="add-word-form">
+                  <fieldset class="uk-fieldset">
+                      <div class="uk-margin">
+                          <input class="uk-input" type="text" name="word" placeholder="Word">
+                      </div>
+                      <div class="uk-margin">
+                          <textarea class="uk-textarea" rows="5" name="definition" placeholder="Definition"></textarea>
+                      </div>
+                  </fieldset>
+                  <button class="uk-button uk-button-default uk-margin-small-right" onclick="addWord()" type="button">Add Word</button>
+                  <button class="uk-modal-close uk-button uk-button-default uk-margin-small-right" type="button">Close</button>
+              </form>
+          </div>
+      </div>
     </div>
     <ul>
     </ul>

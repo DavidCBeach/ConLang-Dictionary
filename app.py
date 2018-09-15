@@ -11,12 +11,21 @@ def main():
     return render_template('main.html')
 
 
+######### API ROUTES #########
 @app.route('/$RECENT')
 @app.route('/$RECENT/')
 def recent():
     recent = df.recent()
     return jsonify(recent)
 
+
+@app.route('/$ADD/<string:word>/<string:definition>')
+@app.route('/$ADD/<string:word>/<string:definition>/')
+def addword(word, definition):
+    if (df.addWord(word, definition)):
+        return "", 200
+    else:
+        return "", 500
 
 # Run server on localhost
 if __name__ == '__main__':

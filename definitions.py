@@ -3,7 +3,6 @@ import json
 import random
 import string
 import os.path
-import tokenize
 from pathlib2 import Path
 
 
@@ -33,19 +32,6 @@ def init():
     return data
 
 
-def tokenize(input):
-    arr = []
-    tempString = ""
-    for i in input:
-        if i == " ":
-            arr.append(tempString)
-            tempString = ""
-        else:
-            tempString += i
-    arr.append(tempString)
-    return arr
-
-
 def search(data, search):
     # Searched item was not found
     if lookup(data, search) == False:
@@ -55,34 +41,19 @@ def search(data, search):
     showWord(data, search)
 
 
-def add(data, word):
+def addWord(word, definition):
+    with open("dict.json") as json_file:
+        data = json.load(json_file)
     # Word already exists
     if lookup(data, word):
-        answer = raw_input("Word found! Add Definition? (y/n): ").lower()
-        if answer == "y":
-            definition = raw_input("Enter definition: ")
-            # Create unique ID
-            ID = None
-            while(1):
-                ID = genId()
-                if ID not in data[word]:
-                    break
-            # Add definition
-            data[word].update({
-                ID: definition
-            })
-            writeToFile(data)
-            return
-        else:
-            return
+        print('word not found')
+        return False
     else:
-        data[word] = {}
-        definition = raw_input("Enter definition: ")
-        data[word].update({
-            genId(): definition
-        })
+        print('all good fool')
+        data[word] = {genId(): definition}
         writeToFile(data)
         updateRecent(word)
+        return True
 
 
 def remove(data, operation, word):
