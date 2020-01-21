@@ -1,4 +1,7 @@
 var dbManager = require('./functions/dbManager');
+var express = require('express');
+var router = express.Router();
+router.use(express.static('public'));
 
 router.get('/add/universe', (req, res) => {
   var name = req.query.name;
