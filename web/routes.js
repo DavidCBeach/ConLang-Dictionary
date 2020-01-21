@@ -1,17 +1,4 @@
-var express = require('express');
-var router = express.Router();
-var url = require('url');
-var fs = require('fs');
-var formidable = require('formidable');
-const sqlite3 = require("sqlite3").verbose();
-var encrypt = require('./functions/encrypt');
 var dbManager = require('./functions/dbManager');
-var fileReader = require('./functions/fileReader');
-
-
-
-
-
 
 router.get('/add/universe', (req, res) => {
   var name = req.query.name;
