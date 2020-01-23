@@ -1,7 +1,7 @@
 const sqlite3 = require("sqlite3").verbose();
 
 
-var getDB = function(){
+exports.getDB = function(){
   let db = new sqlite3.Database('./db/conlang.sl3',sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       return console.error(err.message);
@@ -106,4 +106,15 @@ exports.getAllDefinitions = function(){
   });
   db.close();
   return result;
+}
+exports.getDictionary = function(universe,language,word){
+  var db = getDB();
+  var results = []
+  db.all(`select * from (select words.id as wrd_id, word, universe_id,language_id,language_name,universe_name from (select universe_id,languages.id as lang_id,universes.name as universe_name, languages.name as language_name from universes join languages on universes.id=languages.universe_id) join words on language_id=words.language_id) left join definitions on wrd_id=definitions.word_id`,
+   (err, row) => {
+   if (err) {
+     console.error(err.message);
+   }
+   return {definitions: row};
+  });
 }

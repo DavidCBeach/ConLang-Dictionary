@@ -1,4 +1,6 @@
 var dbManager = require('./functions/dbManager');
+var fileReader = require('./functions/fileReader');
+var url = require('url');
 var express = require('express');
 var router = express.Router();
 router.use(express.static('public'));
@@ -55,6 +57,21 @@ router.get('/sql/definitions', (req, res) => {
   res.json(dbManager.getAllDefinitions());
 });
 
+router.get('/sql/dictionary', (req, res) => {
+  var universe = req.query.universe;
+  var language = req.query.language;
+  var word = req.query.word; 
+  var db = dbManager.getDB();
+  db.all(`select * from (select words.id as wrd_id, word, universe_id,language_id,language_name,universe_name from (select universe_id,languages.id as lang_id,universes.name as universe_name, languages.name as language_name from universes join languages on universes.id=languages.universe_id) join words on language_id=words.language_id) left join definitions on wrd_id=definitions.word_id`,
+   (err, row) => {
+   if (err) {
+     console.error(err.message);
+   }
+   console.log(row);
+   res.json({dictionary: row});
+  });
+});
+
 
 router.get('/sql/account_univserse', (req, res) => {
 
@@ -63,13 +80,11 @@ router.get('/sql/account_univserse', (req, res) => {
 
 
 
+
 router.get('/*', (req, res) => {
     var q = url.parse(req.url, true);
     var filename =  q.pathname;
-
-    if(filename == "/"){
-      filename = "/library.html";
-    }
+    filename = "/home.html";
     fileReader.fileReader(filename,req,res);
 });
 
